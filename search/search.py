@@ -117,8 +117,11 @@ def depthFirstSearch(problem):
             else:
                 pass
         if allVisited == True:
-            path.pop()
-            currentNode = path.list[-1]
+            if not path.isEmpty():
+                path.pop()
+                currentNode = path.list[-1]
+            else:
+                return
 
     for node in path.list:
         if node[1] == "South":
@@ -194,7 +197,7 @@ def uniformCostSearch(problem):
     # x = PriorityQueueWithFunction(qFunction)
     # x.priorityFunction
 
-    
+
 
 
 
