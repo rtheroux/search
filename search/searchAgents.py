@@ -426,6 +426,7 @@ class FoodSearchProblem:
         return cost
 
 class AStarFoodSearchAgent(SearchAgent):
+    from time import sleep
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
     def __init__(self):
         self.searchFunction = lambda prob: search.aStarSearch(prob, foodHeuristic)
@@ -461,7 +462,28 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    # problem.heuristicInfo['wallCount'] = problem.walls.count()
+    # print dir(problem.heuristicInfo)
+    # for node in problem.getSuccessors(position):
+    #     if problem.isGoalState(node[0]):
+    #         return 1
+    #     else:
+    #         return 2
+    # print dir(problem.heuristicInfo)
+    if foodGrid.count() == 0:
+        return 0
+    problem.goal = foodGrid.asList()[0]
+    best = manhattanHeuristic(position, problem)
+    for food in foodGrid.asList():
+        problem.goal = food
+        current = manhattanHeuristic(position, problem)
+        if current > best:
+            best = current
+    return best
+    # print problem.isGoalState(state)
+
+    # return manhattanHeuristic(position, problem)
+    return x
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
@@ -492,7 +514,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return search.ucs(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -528,7 +550,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # print self.food[1][1]
+        return self.food[x][y]
 
 def mazeDistance(point1, point2, gameState):
     """
